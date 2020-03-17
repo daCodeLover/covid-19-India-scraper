@@ -37,4 +37,8 @@ for container in containers :
     death = death_container[5].text
     f.write(state + "," + total_confirmed_indian + "," + total_confirmed_foreign + "," + cured + "," + death + "\n")
 
+# grabbing total row
+total = total_container.findAll("td")
+f.write(total[0].text + "," + total[1].text + "," + total[2].text.strip() + "," + total[3].text.strip() + "," + total[4].text.strip() )
+
 f.close()
