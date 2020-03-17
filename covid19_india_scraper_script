@@ -1,3 +1,8 @@
+from bs4 import BeautifulSoup as soup
+from urllib.request import urlopen as uReq
+
+url = "https://www.mohfw.gov.in/"
+
 #creating csv file
 file_name = "covid_cases_india.csv"
 f = open(file_name, 'w')
