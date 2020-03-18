@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 
+
 url = "https://www.mohfw.gov.in/"
 
 #creating csv file
@@ -21,8 +22,9 @@ page_soup = soup(page_html, "html.parser")
 
 # grabing each row in the table
 containers = page_soup.findAll("tr")
+total_container = containers[-1]
 containers.pop(0)
-containers.pop(15)
+containers.pop(-1)
 
 for container in containers :
     state_container = container.findAll("td")
@@ -36,6 +38,7 @@ for container in containers :
     death_container = container.findAll("td")
     death = death_container[5].text
     f.write(state + "," + total_confirmed_indian + "," + total_confirmed_foreign + "," + cured + "," + death + "\n")
+
 
 # grabbing total row
 total = total_container.findAll("td")
