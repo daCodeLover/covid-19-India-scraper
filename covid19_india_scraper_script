@@ -2,31 +2,39 @@ from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 
 
+
 url = "https://www.mohfw.gov.in/"
 
-#creating csv file
-file_name = "covid_cases_india.csv"
+# creating csv file
+
+file_name = "covid_cases_india.csv"              # rename and specify the path of the file accordingly 
 f = open(file_name, 'w')
 
 # reading page of url link
+
 u_client = uReq(url)
 page_html = u_client.read()
 u_client.close()
 
 # creating and writing header to csv file
+
 header = "Name of State / UT, Total Confirmed cases (Indian National), Total Confirmed cases ( Foreign National ) , Cured / Discharged, Death\n"
 f.write(header)
 
 # html parsing
+
 page_soup = soup(page_html, "html.parser")
 
 # grabing each row in the table
-containers = page_soup.findAll("tr")
-total_container = containers[-1]
-containers.pop(0)
-containers.pop(-1)
 
-for container in containers :
+containers = page_soup.findAll("div", {"class" : "table-responsive"})
+table = containers[7]
+table_contents_list = table.findAll("tr")
+total_container = table_contents_list[-1]
+table_contents_list.pop(0)
+table_contents_list.pop(-1)
+
+for container in table_contents_list :
     state_container = container.findAll("td")
     state = state_container[1].text
     total_confirmed_indian_container = container.findAll("td")
@@ -41,6 +49,7 @@ for container in containers :
 
 
 # grabbing total row
+
 total = total_container.findAll("td")
 f.write(total[0].text + "," + total[1].text + "," + total[2].text.strip() + "," + total[3].text.strip() + "," + total[4].text.strip() )
 
